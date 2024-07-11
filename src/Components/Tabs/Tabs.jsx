@@ -17,6 +17,7 @@ const content = [
       "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
   },
 ];
+
 export default function Tabs() {
   const [activeTab, setActiveTab] = useState(0);
   return (
@@ -29,7 +30,10 @@ export default function Tabs() {
       </div>
 
       {activeTab <= 2 ? (
-        <TabContent item={content.at(activeTab)} />
+        <TabContent
+          item={content.at(activeTab)}
+          key={content.at(activeTab).summary}
+        />
       ) : (
         <DifferentContent />
       )}
@@ -56,6 +60,22 @@ function TabContent({ item }) {
     setLikes(likes + 1);
   }
 
+  function handleTrippleInc() {
+    setLikes(likes + 3);
+    // setLikes((likes) => likes + 1)
+    // setLikes((likes) => likes + 1)
+    // setLikes((likes) => likes + 1)
+  }
+
+  function handleUndo() {
+    setShowDetails(true);
+    setLikes(0);
+  }
+
+  function handleUndoLater() {
+    setTimeout(handleUndo, 2000);
+  }
+
   return (
     <div className="tab-content">
       <h4>{item.summary}</h4>
@@ -69,13 +89,13 @@ function TabContent({ item }) {
         <div className="hearts-counter">
           <span>{likes} ♥</span>
           <button onClick={handleInc}>+</button>
-          <button>+++</button>
+          <button onClick={handleTrippleInc}>+++</button>
         </div>
       </div>
 
       <div className="tab-undo">
-        <button>Undo</button>
-        <button>Undo in 2s</button>
+        <button onClick={handleUndo}>Undo</button>
+        <button onClick={handleUndoLater}>Undo in 2s</button>
       </div>
     </div>
   );
